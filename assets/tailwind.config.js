@@ -7,7 +7,12 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = {
-  content: ["./js/**/*.js", "../lib/*_web.ex", "../lib/*_web/**/*.*ex"],
+  content: [
+    "./js/**/*.js",
+    "../lib/*_web.ex",
+    "../lib/*_web/**/*.*ex",
+    "./node_modules/flowbite/**/*.js",
+  ],
   theme: {
     extend: {
       colors: {
@@ -20,6 +25,7 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/forms"),
+    require("flowbite/plugin"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
     //
