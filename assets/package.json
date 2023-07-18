@@ -9,6 +9,7 @@
   "author": "Serguei Cambour",
   "license": "MIT",
   "dependencies": {
+    "@fontsource/inter": "^5.0.5",
     "flowbite": "^1.7.0"
   }
 }
