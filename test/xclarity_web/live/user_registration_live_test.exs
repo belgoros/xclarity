@@ -9,7 +9,7 @@ defmodule XClarityWeb.UserRegistrationLiveTest do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
       assert html =~ "Register"
-      assert html =~ "Log in"
+      assert html =~ "Sign in"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -52,7 +52,7 @@ defmodule XClarityWeb.UserRegistrationLiveTest do
       response = html_response(conn, 200)
       assert response =~ email
       assert response =~ "Settings"
-      assert response =~ "Log out"
+      assert response =~ "Sign out"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -81,7 +81,7 @@ defmodule XClarityWeb.UserRegistrationLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 
-      assert login_html =~ "Log in"
+      assert login_html =~ "Sign in"
     end
   end
 end
