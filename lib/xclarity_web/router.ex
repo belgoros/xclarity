@@ -68,6 +68,7 @@ defmodule XClarityWeb.Router do
       on_mount: [{XClarityWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      live "/timesheets", TimesheetsLive.Index, :index
     end
   end
 
