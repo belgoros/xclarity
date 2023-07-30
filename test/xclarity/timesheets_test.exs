@@ -7,6 +7,7 @@ defmodule XClarity.TimesheetsTest do
     alias XClarity.Timesheets.Timesheet
 
     import XClarity.TimesheetsFixtures
+    import XClarity.AccountsFixtures
 
     @invalid_attrs %{status: nil}
 
@@ -21,10 +22,11 @@ defmodule XClarity.TimesheetsTest do
     end
 
     test "create_timesheet/1 with valid data creates a timesheet" do
-      valid_attrs = %{status: "some status"}
+      user = user_fixture()
+      valid_attrs = %{status: :open, user_id: user.id}
 
       assert {:ok, %Timesheet{} = timesheet} = Timesheets.create_timesheet(valid_attrs)
-      assert timesheet.status == "some status"
+      assert timesheet.status == :open
     end
 
     test "create_timesheet/1 with invalid data returns error changeset" do
@@ -33,10 +35,12 @@ defmodule XClarity.TimesheetsTest do
 
     test "update_timesheet/2 with valid data updates the timesheet" do
       timesheet = timesheet_fixture()
-      update_attrs = %{status: "some updated status"}
+      update_attrs = %{status: :saved}
 
-      assert {:ok, %Timesheet{} = timesheet} = Timesheets.update_timesheet(timesheet, update_attrs)
-      assert timesheet.status == "some updated status"
+      assert {:ok, %Timesheet{} = timesheet} =
+               Timesheets.update_timesheet(timesheet, update_attrs)
+
+      assert timesheet.status == :saved
     end
 
     test "update_timesheet/2 with invalid data returns error changeset" do
