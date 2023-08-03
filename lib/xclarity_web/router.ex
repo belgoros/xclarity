@@ -17,12 +17,6 @@ defmodule XClarityWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", XClarityWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", XClarityWeb do
   #   pipe_through :api
@@ -42,6 +36,21 @@ defmodule XClarityWeb.Router do
 
       live_dashboard "/dashboard", metrics: XClarityWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  scope "/", XClarityWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :authenticated,
+      on_mount: [{XClarityWeb.UserAuth, :ensure_authenticated}] do
+      live "/timesheets", TimesheetsLive.Index, :index
+
+      live "/clients", ClientLive.Index, :index
+      live "/clients/new", ClientLive.Index, :new
+      live "/clients/:id/edit", ClientLive.Index, :edit
+      live "/clients/:id", ClientLive.Show, :show
+      live "/clients/:id/show/edit", ClientLive.Show, :edit
     end
   end
 
@@ -68,7 +77,6 @@ defmodule XClarityWeb.Router do
       on_mount: [{XClarityWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
-      live "/timesheets", TimesheetsLive.Index, :index
     end
   end
 
@@ -82,5 +90,11 @@ defmodule XClarityWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
+  end
+
+  scope "/", XClarityWeb do
+    pipe_through :browser
+
+    get "/", PageController, :home
   end
 end
