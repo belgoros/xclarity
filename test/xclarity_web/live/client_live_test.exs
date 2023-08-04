@@ -14,16 +14,16 @@ defmodule XClarityWeb.ClientLiveTest do
     %{client: client}
   end
 
-  defp authenticate(conn) do
-    %{conn: log_in_user(conn, user_fixture())}
+  defp authenticate(%{conn: conn}) do
+    conn =
+      conn
+      |> log_in_user(user_fixture())
+
+    %{conn: conn}
   end
 
   describe "Index" do
-    setup [:create_client]
-
-    setup %{conn: conn} do
-      authenticate(conn)
-    end
+    setup [:create_client, :authenticate]
 
     test "lists all clients", %{conn: conn, client: client} do
       {:ok, _index_live, html} = live(conn, ~p"/clients")
@@ -87,11 +87,7 @@ defmodule XClarityWeb.ClientLiveTest do
   end
 
   describe "Show" do
-    setup [:create_client]
-
-    setup %{conn: conn} do
-      authenticate(conn)
-    end
+    setup [:create_client, :authenticate]
 
     test "displays client", %{conn: conn, client: client} do
       {:ok, _show_live, html} =
