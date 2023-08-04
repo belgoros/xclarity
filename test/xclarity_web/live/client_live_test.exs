@@ -14,24 +14,26 @@ defmodule XClarityWeb.ClientLiveTest do
     %{client: client}
   end
 
+  defp authenticate(conn) do
+    %{conn: log_in_user(conn, user_fixture())}
+  end
+
   describe "Index" do
     setup [:create_client]
 
+    setup %{conn: conn} do
+      authenticate(conn)
+    end
+
     test "lists all clients", %{conn: conn, client: client} do
-      {:ok, _lv, html} =
-        conn
-        |> log_in_user(user_fixture())
-        |> live(~p"/clients")
+      {:ok, _index_live, html} = live(conn, ~p"/clients")
 
       assert html =~ "Listing Clients"
       assert html =~ client.name
     end
 
     test "saves new client", %{conn: conn} do
-      {:ok, index_live, _html} =
-        conn
-        |> log_in_user(user_fixture())
-        |> live(~p"/clients")
+      {:ok, index_live, _html} = live(conn, ~p"/clients")
 
       assert index_live |> element("a", "New Client") |> render_click() =~
                "New Client"
@@ -54,10 +56,7 @@ defmodule XClarityWeb.ClientLiveTest do
     end
 
     test "updates client in listing", %{conn: conn, client: client} do
-      {:ok, index_live, _html} =
-        conn
-        |> log_in_user(user_fixture())
-        |> live(~p"/clients")
+      {:ok, index_live, _html} = live(conn, ~p"/clients")
 
       assert index_live |> element("#clients-#{client.id} a", "Edit") |> render_click() =~
                "Edit Client"
@@ -80,10 +79,7 @@ defmodule XClarityWeb.ClientLiveTest do
     end
 
     test "deletes client in listing", %{conn: conn, client: client} do
-      {:ok, index_live, _html} =
-        conn
-        |> log_in_user(user_fixture())
-        |> live(~p"/clients")
+      {:ok, index_live, _html} = live(conn, ~p"/clients")
 
       assert index_live |> element("#clients-#{client.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#clients-#{client.id}")
@@ -93,10 +89,13 @@ defmodule XClarityWeb.ClientLiveTest do
   describe "Show" do
     setup [:create_client]
 
+    setup %{conn: conn} do
+      authenticate(conn)
+    end
+
     test "displays client", %{conn: conn, client: client} do
       {:ok, _show_live, html} =
         conn
-        |> log_in_user(user_fixture())
         |> live(~p"/clients/#{client}")
 
       assert html =~ "Show Client"
@@ -106,7 +105,6 @@ defmodule XClarityWeb.ClientLiveTest do
     test "updates client within modal", %{conn: conn, client: client} do
       {:ok, show_live, _html} =
         conn
-        |> log_in_user(user_fixture())
         |> live(~p"/clients/#{client}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~
