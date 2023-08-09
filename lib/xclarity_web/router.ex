@@ -44,7 +44,8 @@ defmodule XClarityWeb.Router do
 
     live_session :authenticated,
       on_mount: [{XClarityWeb.UserAuth, :ensure_authenticated}] do
-      live "/timesheets", TimesheetsLive.Index, :index
+      live "/timesheets", TimesheetLive.Index, :index
+      live "/contacts", ContactLive.Index, :index
 
       live "/clients", ClientLive.Index, :index
       live "/clients/new", ClientLive.Index, :new

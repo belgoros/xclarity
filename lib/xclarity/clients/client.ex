@@ -7,6 +7,7 @@ defmodule XClarity.Clients.Client do
   schema "clients" do
     field :name, :string
     field :vat, :string
+    has_many :contacts, XClarity.Contacts.Contact
 
     timestamps()
   end
