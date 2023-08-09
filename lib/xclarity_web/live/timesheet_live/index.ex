@@ -1,4 +1,4 @@
-defmodule XClarityWeb.TimesheetsLive.Index do
+defmodule XClarityWeb.TimesheetLive.Index do
   use XClarityWeb, :live_view
 
   alias XClarity.Timesheets
