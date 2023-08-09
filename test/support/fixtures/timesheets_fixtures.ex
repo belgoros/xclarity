@@ -1,5 +1,5 @@
 defmodule XClarity.TimesheetsFixtures do
-  XClarity.AccountsFixtures
+  import XClarity.AccountsFixtures
 
   @moduledoc """
   This module defines test helpers for creating
@@ -10,7 +10,7 @@ defmodule XClarity.TimesheetsFixtures do
   Generate a timesheet.
   """
   def timesheet_fixture(attrs \\ %{}) do
-    user = XClarity.AccountsFixtures.user_fixture()
+    user = user_fixture()
 
     {:ok, timesheet} =
       attrs
