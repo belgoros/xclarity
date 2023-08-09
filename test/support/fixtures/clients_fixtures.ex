@@ -11,8 +11,8 @@ defmodule XClarity.ClientsFixtures do
     {:ok, client} =
       attrs
       |> Enum.into(%{
-        name: "some name",
-        vat: "some vat"
+        name: Faker.Company.name(),
+        vat: Faker.Code.isbn()
       })
       |> XClarity.Clients.create_client()
 
