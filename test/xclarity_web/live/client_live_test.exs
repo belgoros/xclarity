@@ -3,7 +3,6 @@ defmodule XClarityWeb.ClientLiveTest do
 
   import Phoenix.LiveViewTest
   import XClarity.ClientsFixtures
-  import XClarity.AccountsFixtures
 
   @create_attrs %{name: "some name", vat: "some vat"}
   @update_attrs %{name: "some updated name", vat: "some updated vat"}
@@ -14,16 +13,8 @@ defmodule XClarityWeb.ClientLiveTest do
     %{client: client}
   end
 
-  defp authenticate(%{conn: conn}) do
-    conn =
-      conn
-      |> log_in_user(user_fixture())
-
-    %{conn: conn}
-  end
-
   describe "Index" do
-    setup [:create_client, :authenticate]
+    setup [:create_client, :register_and_log_in_user]
 
     test "lists all clients", %{conn: conn, client: client} do
       {:ok, _index_live, html} = live(conn, ~p"/clients")
@@ -87,7 +78,7 @@ defmodule XClarityWeb.ClientLiveTest do
   end
 
   describe "Show" do
-    setup [:create_client, :authenticate]
+    setup [:create_client, :register_and_log_in_user]
 
     test "displays client", %{conn: conn, client: client} do
       {:ok, _show_live, html} =
